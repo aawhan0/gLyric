@@ -1,0 +1,69 @@
+gLyric Project Roadmap
+
+
+@@@ Phase 1: Chrome Extension MVP (Frontend)
+Build Chrome extension with manifest v3.
+
+Develop content script to extract song info (title, artist) from YouTube video titles.
+
+Implement UI button/context menu "Open Lyrics".
+
+On click, open Genius search URL in a new tab.
+
+Test extension functionality on YouTube.
+
+
+
+@@@ Phase 2: Python Backend for Lyrics API Integration
+Set up a Python backend service (Flask/FastAPI) that acts as a proxy to lyrics APIs (e.g., Genius API).
+
+Implement API endpoints to accept song info and fetch lyrics from third-party service.
+
+Return cleaned, formatted lyrics or lyric search URLs.
+
+Secure API with token/environment variables.
+
+Deploy backend service on cloud (Heroku/AWS/GCP).
+
+
+
+@@@ Phase 3: Integrate Python Backend with Chrome Extension
+Modify Chrome extension to send recognized song info to Python backend.
+
+Receive lyric data or URLs from backend.
+
+Display lyrics or provide enhanced lyric search options inside the extension UI.
+
+Implement error handling and fallback options.
+
+
+
+@@@ Phase 4: Multi-Platform Song Info Extraction
+Extend content script logic to support Spotify Web Player, SoundCloud, and other sites.
+
+Build modular parsers for different platforms.
+
+Enable extension to detect song info on multiple websites.
+
+
+
+@@@ Phase 5: Optional Advanced Features
+Experiment with Python-based audio fingerprint recognition (e.g., using Dejavu or third-party APIs).
+
+Add synchronized lyrics display by fetching timed lyric data.
+
+Implement user settings within extension for preferred lyrics sources.
+
+Add caching mechanism in backend to speed up common lyric queries.
+
+
+
+@@@ Phase 6: Documentation and Deployment
+Write comprehensive README, contribution guidelines, and API docs.
+
+Publish Chrome extension publicly on the Chrome Web Store.
+
+Maintain repository with issue tracking and roadmap updates.
+
+Share demo videos and usage guides.
+
