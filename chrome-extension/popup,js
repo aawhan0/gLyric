@@ -1,8 +1,17 @@
-// Popup UI logic
-document.getElementById('fetchLyrics').addEventListener('click', () => {
+const fetchBtn = document.getElementById('fetchLyrics');
+const lyricsDiv = document.getElementById('lyrics');
+
+fetchBtn.addEventListener('click', () => {
+  lyricsDiv.textContent = "Loading lyrics...";   // Show loading state
+  fetchBtn.disabled = true;                      // Disable button during fetch
+
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
-    if (!tab) return alert("No active tab.");
+    if (!tab) {
+      lyricsDiv.textContent = "No active tab found.";
+      fetchBtn.disabled = false;
+      return;
+    }
 
     chrome.tabs.sendMessage(tab.id, { action: "getSongInfo" }, (response) => {
       if (response && response.song) {
@@ -17,16 +26,20 @@ document.getElementById('fetchLyrics').addEventListener('click', () => {
             return res.json();
           })
           .then((data) => {
-            document.getElementById('lyrics').innerHTML = `
+            lyricsDiv.innerHTML = `
               <strong>${data.title}</strong> by <em>${data.artist}</em><br>
-              <a href="${data.url}" target="_blank">View on Genius</a>
+              <a href="${data.url}" target="_blank" rel="noopener noreferrer">View on Genius</a>
             `;
           })
           .catch(() => {
-            document.getElementById('lyrics').textContent = "Lyrics not found";
+            lyricsDiv.textContent = "Lyrics not found.";
+          })
+          .finally(() => {
+            fetchBtn.disabled = false;
           });
       } else {
-        document.getElementById('lyrics').textContent = "Could not find song info.";
+        lyricsDiv.textContent = "Could not find song information.";
+        fetchBtn.disabled = false;
       }
     });
   });
