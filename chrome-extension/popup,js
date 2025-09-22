@@ -1,1 +1,33 @@
 // Popup UI logic
+document.getElementById('fetchLyrics').addEventListener('click', () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const tab = tabs[0];
+    if (!tab) return alert("No active tab.");
+
+    chrome.tabs.sendMessage(tab.id, { action: "getSongInfo" }, (response) => {
+      if (response && response.song) {
+        const queryParams = new URLSearchParams({
+          artist: response.artist,
+          song: response.song,
+        }).toString();
+
+        fetch(`http://127.0.0.1:8000/lyrics/?${queryParams}`)
+          .then((res) => {
+            if (!res.ok) throw new Error("Lyrics not found");
+            return res.json();
+          })
+          .then((data) => {
+            document.getElementById('lyrics').innerHTML = `
+              <strong>${data.title}</strong> by <em>${data.artist}</em><br>
+              <a href="${data.url}" target="_blank">View on Genius</a>
+            `;
+          })
+          .catch(() => {
+            document.getElementById('lyrics').textContent = "Lyrics not found";
+          });
+      } else {
+        document.getElementById('lyrics').textContent = "Could not find song info.";
+      }
+    });
+  });
+});

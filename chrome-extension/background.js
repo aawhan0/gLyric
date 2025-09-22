@@ -7,9 +7,27 @@ function openLyricsOnGenius() {
 
     chrome.tabs.sendMessage(tab.id, { action: "getSongInfo" }, (response) => {
       if (response && response.song) {
-        const query = encodeURIComponent(`${response.artist} ${response.song}`);
-        const url = `https://genius.com/search?q=${query}`;
-        chrome.tabs.create({ url });
+        const queryParams = new URLSearchParams({
+          artist: response.artist,
+          song: response.song,
+        }).toString();
+
+        const backendUrl = `http://127.0.0.1:8000/lyrics/?${queryParams}`;
+
+        fetch(backendUrl)
+          .then((res) => {
+            if (!res.ok) throw new Error("Lyrics not found");
+            return res.json();
+          })
+          .then((data) => {
+            chrome.tabs.create({ url: data.url });
+          })
+          .catch((error) => {
+            // Fallback to Genius search if backend fails
+            const fallbackQuery = encodeURIComponent(`${response.artist} ${response.song}`);
+            const geniusUrl = `https://genius.com/search?q=${fallbackQuery}`;
+            chrome.tabs.create({ url: geniusUrl });
+          });
       } else {
         alert("Could not extract song information.");
       }

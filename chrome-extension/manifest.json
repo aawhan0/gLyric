@@ -3,7 +3,7 @@
     "name": "gLyric",
     "version": "0.1",
     "description": "Open lyrics quickly on Genius from Youtube videos.",
-    "permissions": ["contextMenus", "tabs", "activeTab", "scripting"],
+    "permissions": ["contextMenus", "tabs", "activeTab", "http://127.0.0.1:8000/*"],
     "background": {
         "service_worker": "background.js"
     },
@@ -13,9 +13,25 @@
             "js": ["contentScript.js"]
         }
     ],
+    "action": {
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        },
+    "default_title": "Open Lyrics"
+    },
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
-    }
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["popup.html"],
+            "matches": ["<all_urls>"]
+    
+        }
+    ],
+    "default_popup": "popup_html"
 }
