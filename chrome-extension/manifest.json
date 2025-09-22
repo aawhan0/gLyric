@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "gLyric",
+    "version": "0.1",
+    "description": "Open lyrics quickly on Genius from Youtube videos.",
+    "permissions": ["contextMenus", "tabs", "activeTab", "scripting"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*.youtube.com/watch*"],
+            "js": ["contentScript.js"]
+        }
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}
