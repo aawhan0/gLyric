@@ -1,0 +1,1 @@
+// Handles context menu and tab actions
