@@ -3,7 +3,7 @@ title: GLyric
 emoji: 😻
 colorFrom: blue
 colorTo: purple
-sdk: gradio
+sdk: docker
 sdk_version: 5.46.1
 app_file: app.py
 pinned: false
